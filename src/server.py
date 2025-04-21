@@ -15,7 +15,7 @@ def get_uri_from_artist_song(artist: str, song: str) -> str | None:
 
 
 @mcp.tool(name="play_song_by_uri")
-def play_song_by_uri(uri: str) -> None:
+def play_song_by_uri(uri: str) -> bool:
     return _play_song_by_uri(uri)
 
 
