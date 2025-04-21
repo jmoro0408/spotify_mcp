@@ -1,5 +1,5 @@
 from auth import SpotipyClient
-from sp_mcp import mcp
+from server import mcp
 
 
 @mcp.resource("play://{artist}_{song}")  # how to name this?
@@ -15,10 +15,3 @@ def get_uri_from_artist_song(artist: str, song: str) -> str | None:
         return tracks[0]["uri"]
     else:
         return None
-
-
-if __name__ == "__main__":
-    song = "Hey Brother"
-    artist = "Dan Tyminski"
-
-    print(get_uri_from_artist_song(artist=artist, song=song))
