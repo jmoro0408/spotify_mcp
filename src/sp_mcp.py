@@ -1,5 +1,11 @@
+# server.py
+from mcp.server.fastmcp import FastMCP
+
 from auth import SpotipyClient
-from sp_mcp import mcp
+from utils import strip_uri
+
+# Create an MCP server
+mcp = FastMCP("Spotify_MCP")
 
 
 @mcp.resource("play://{artist}_{song}")  # how to name this?
@@ -11,14 +17,22 @@ def get_uri_from_artist_song(artist: str, song: str) -> str | None:
     if results is None:
         return None
     tracks = results["tracks"]["items"]
+
     if tracks:
         return tracks[0]["uri"]
     else:
         return None
 
 
-if __name__ == "__main__":
-    song = "Hey Brother"
-    artist = "Dan Tyminski"
+@mcp.tool(name="play_song_by_uri")
+def play_song_by_uri(uri: str) -> None:
+    uri = strip_uri(uri)
+    auth = SpotipyClient()
+    sp = auth.sp
+    sp.start_playback(uris=[f"spotify:track:{uri}"])
+    return None
 
-    print(get_uri_from_artist_song(artist=artist, song=song))
+
+if __name__ == "__main__":
+    # Initialize and run the server
+    mcp.run(transport="stdio")
