@@ -1,0 +1,21 @@
+[project]
+name = "spotify-mcp"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "mcp[cli]>=1.6.0",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "mypy>=1.15.0",
+    "pre-commit>=4.2.0",
+]
+
+[tool.pyright]
+exclude = [".venv"]
+pythonVersion = "3.13"
+venvPath = "."
+venv = ".venv"
