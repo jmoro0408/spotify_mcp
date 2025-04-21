@@ -1,10 +1,10 @@
 from auth import SpotipyClient
-from server import mcp
+from utils import strip_uri
 
 
-@mcp.tool(name="play_song_by_uri")
-def play_song_by_uri(uri: str) -> None:
+def _play_song_by_uri(uri: str) -> None:
     auth = SpotipyClient()
     sp = auth.sp
+    uri = strip_uri(uri)
     sp.start_playback(uris=[f"spotify:track:{uri}"])
     return None

@@ -1,9 +1,7 @@
 from auth import SpotipyClient
-from server import mcp
 
 
-@mcp.resource("play://{artist}_{song}")  # how to name this?
-def get_uri_from_artist_song(artist: str, song: str) -> str | None:
+def _get_uri_from_artist_song(artist: str, song: str) -> str | None:
     auth = SpotipyClient()
     sp = auth.sp
     query = f"artist:{artist} track:{song}"
