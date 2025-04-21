@@ -1,12 +1,9 @@
 from mcp.server.fastmcp import FastMCP
 
-from auth import SpotipyClient
 from resources import _get_uri_from_artist_song
 from tools import _play_song_by_uri
 
 mcp = FastMCP("Spotify_MCP")
-
-client = SpotipyClient()
 
 
 @mcp.resource("play://{artist}_{song}")

@@ -1,12 +1,10 @@
-from loguru import logger
-
-from auth import SpotipyClient
+from auth import client
+from utils import logger
 
 
 def _get_uri_from_artist_song(artist: str, song: str) -> str | None:
     try:
-        auth = SpotipyClient()
-        sp = auth.sp
+        sp = client.sp
         query = f"artist:{artist} track:{song}"
         results = sp.search(q=query, type="track", limit=1)
         if results is None:

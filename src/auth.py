@@ -8,3 +8,6 @@ class SpotipyClient:
         load_dotenv(find_dotenv())
         scope = "user-library-read,user-read-playback-state,user-modify-playback-state,user-read-currently-playing"
         self.sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
+
+
+client = SpotipyClient()

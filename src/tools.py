@@ -1,13 +1,10 @@
-from loguru import logger
-
-from auth import SpotipyClient
-from utils import strip_uri
+from auth import client
+from utils import logger, strip_uri
 
 
 def _play_song_by_uri(uri: str) -> bool:
     try:
-        auth = SpotipyClient()
-        sp = auth.sp
+        sp = client.sp
         uri = strip_uri(uri)
         sp.start_playback(uris=[f"spotify:track:{uri}"])
         return True
