@@ -1,5 +1,9 @@
 from auth import client
-from resources import _get_playlist_id, _get_uri_from_artist_song, _get_user_playlists
+from resources import (
+    _get_uri_from_artist_song,
+    _get_user_playlist_id,
+    _get_user_playlists,
+)
 from utils import logger, strip_playlist_uri, strip_track_uri
 
 
@@ -64,13 +68,26 @@ def _play_playlist_by_id(playlist_uri: str) -> bool:
     return True
 
 
-def _play_playlist_by_name(playlist_name: str) -> bool:
-    playlist_id = _get_playlist_id(playlist_name)
+def _play_user_playlist_by_name(playlist_name: str) -> bool:
+    playlist_id = _get_user_playlist_id(playlist_name)
     if playlist_id:
         return _play_playlist_by_id(playlist_id)
     else:
         return False
 
 
+def _get_playlist_id(query: str, limit: int = 50) -> str | None:
+    # limit is high becauses sometimes intial results are None
+    sp = client.sp
+    results = sp.search(q=query, type="playlist", limit=limit)
+    if results is None:
+        return None
+    results = [x for x in results["playlists"]["items"] if x]
+    logger.info(f"Found playlist: {results[0]['name']}")
+    return results[0]["uri"]
+
+
 if __name__ == "__main__":
-    print(_play_playlist_by_name("Aug 22"))
+    playlist_id = _get_playlist_id("Easy 70s")
+    if playlist_id:
+        _play_playlist_by_id(playlist_id)

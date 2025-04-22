@@ -46,7 +46,7 @@ def _get_user_playlists() -> list[str]:
         raise
 
 
-def _get_playlist_id(
+def _get_user_playlist_id(
     playlist_name: str, similarity_threshold: float = 0.6
 ) -> str | None:
     sp = client.sp
