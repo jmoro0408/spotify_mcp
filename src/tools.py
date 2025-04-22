@@ -1,5 +1,5 @@
 from auth import client
-from resources import _get_uri_from_artist_song
+from resources import _get_uri_from_artist_song, _get_user_playlists
 from utils import logger, strip_uri
 
 
@@ -36,3 +36,12 @@ def _get_currently_playing() -> str:
     except Exception as e:
         logger.error(f"Failed to get currently playing: {str(e)}")
         raise
+
+
+def _list_user_playlists() -> str:
+    user_playlists = _get_user_playlists()
+    return f"User playlists: {', '.join(user_playlists)}"
+
+
+if __name__ == "__main__":
+    print(_list_user_playlists())

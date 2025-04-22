@@ -1,7 +1,12 @@
 from mcp.server.fastmcp import FastMCP
 
-from resources import _get_uri_from_artist_song
-from tools import _get_currently_playing, _play_song_by_artist, _play_song_by_uri
+from resources import _get_uri_from_artist_song, _get_user_playlists
+from tools import (
+    _get_currently_playing,
+    _list_user_playlists,
+    _play_song_by_artist,
+    _play_song_by_uri,
+)
 
 mcp = FastMCP("Spotify_MCP")
 
@@ -15,6 +20,15 @@ mcp = FastMCP("Spotify_MCP")
 )
 def get_uri_from_artist_song(artist: str, song: str) -> str | None:
     return _get_uri_from_artist_song(artist, song)
+
+
+@mcp.resource(
+    "read://playlists",
+    name="get_user_playlists",
+    description="get user playlists",
+)
+def get_user_playlists() -> list[str]:
+    return _get_user_playlists()
 
 
 # Tools
@@ -41,6 +55,14 @@ def play_song_by_uri(uri: str) -> bool:
 )
 def play_song_by_artist(artist: str, song: str) -> bool:
     return _play_song_by_artist(artist=artist, song=song)
+
+
+@mcp.tool(
+    name="get_user_playlists",
+    description="list the users playlists",
+)
+def list_user_playlists() -> str:
+    return _list_user_playlists()
 
 
 if __name__ == "__main__":
