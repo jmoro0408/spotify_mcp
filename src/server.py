@@ -5,10 +5,16 @@ from tools import (
     _get_currently_playing,
     _get_playlist_id,
     _list_user_playlists,
+    _next_track,
+    _pause_playback,
     _play_playlist_by_id,
     _play_song_by_artist,
     _play_song_by_uri,
     _play_user_playlist_by_name,
+    _previous_track,
+    _start_playback,
+    _turn_shuffle_off,
+    _turn_shuffle_on,
 )
 
 mcp = FastMCP("Spotify_MCP")
@@ -86,6 +92,54 @@ def play_public_playlist_by_name(playlist_name: str) -> bool:
         return _play_playlist_by_id(playlist_id)
     else:
         return False
+
+
+@mcp.tool(
+    name="pause_playback",
+    description="pause playback on active device",
+)
+def pause_playback() -> bool:
+    return _pause_playback()
+
+
+@mcp.tool(
+    name="start_playback",
+    description="start playback on active device",
+)
+def start_playback() -> bool:
+    return _start_playback()
+
+
+@mcp.tool(
+    name="next_track",
+    description="skip to next track on active device",
+)
+def next_track() -> bool:
+    return _next_track()
+
+
+@mcp.tool(
+    name="previous_track",
+    description="skip to previous track on active device",
+)
+def previous_track() -> bool:
+    return _previous_track()
+
+
+@mcp.tool(
+    name="turn_shuffle_on",
+    description="Toggle shuffle on active device",
+)
+def turn_shuffle_on() -> bool:
+    return _turn_shuffle_on()
+
+
+@mcp.tool(
+    name="turn_shuffle_off",
+    description="Toggle shuffle off active device",
+)
+def turn_shuffle_off() -> bool:
+    return _turn_shuffle_off()
 
 
 if __name__ == "__main__":

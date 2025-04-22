@@ -87,7 +87,71 @@ def _get_playlist_id(query: str, limit: int = 50) -> str | None:
     return results[0]["uri"]
 
 
+def _pause_playback() -> bool:
+    try:
+        sp = client.sp
+        sp.pause_playback()
+        logger.info("Playback paused")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to pause playback: {str(e)}")
+        raise
+
+
+def _start_playback() -> bool:
+    try:
+        sp = client.sp
+        sp.start_playback()
+        logger.info("Playback started")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to start playback: {str(e)}")
+        raise
+
+
+def _next_track() -> bool:
+    try:
+        sp = client.sp
+        sp.next_track()
+        logger.info("Skipped to next track")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to skip to next track: {str(e)}")
+        raise
+
+
+def _previous_track() -> bool:
+    try:
+        sp = client.sp
+        sp.previous_track()
+        logger.info("Skipped to previous track")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to skip to previous track: {str(e)}")
+        raise
+
+
+def _turn_shuffle_on() -> bool:
+    try:
+        sp = client.sp
+        sp.shuffle(True)
+        logger.info("Shuffle on")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to shuffle: {str(e)}")
+        raise
+
+
+def _turn_shuffle_off() -> bool:
+    try:
+        sp = client.sp
+        sp.shuffle(False)
+        logger.info("Shuffle off")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to shuffle: {str(e)}")
+        raise
+
+
 if __name__ == "__main__":
-    playlist_id = _get_playlist_id("Easy 70s")
-    if playlist_id:
-        _play_playlist_by_id(playlist_id)
+    print(_next_track())
