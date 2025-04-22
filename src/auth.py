@@ -13,4 +13,3 @@ class SpotipyClient:
 
 
 client = SpotipyClient()
-client = SpotipyClient()

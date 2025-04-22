@@ -4,6 +4,7 @@ from resources import _get_uri_from_artist_song, _get_user_playlists
 from tools import (
     _get_currently_playing,
     _list_user_playlists,
+    _play_playlist_by_name,
     _play_song_by_artist,
     _play_song_by_uri,
 )
@@ -63,6 +64,14 @@ def play_song_by_artist(artist: str, song: str) -> bool:
 )
 def list_user_playlists() -> str:
     return _list_user_playlists()
+
+
+@mcp.tool(
+    name="play_playlist_by_name",
+    description="play a playlist given its name",
+)
+def play_playlist_by_name(playlist_name: str) -> bool:
+    return _play_playlist_by_name(playlist_name)
 
 
 if __name__ == "__main__":

@@ -10,5 +10,9 @@ logging.basicConfig(
 logger = logging.getLogger("spotify_mcp")
 
 
-def strip_uri(uri: str) -> str:
+def strip_track_uri(uri: str) -> str:
     return re.sub(r"spotify:track:", "", uri)
+
+
+def strip_playlist_uri(uri: str) -> str:
+    return re.sub(r"spotify:playlist:", "", uri)
