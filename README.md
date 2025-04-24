@@ -13,6 +13,7 @@
 7. Skip to previous
 8. Turn shuffle on
 9. Turn shuffle off
+10. Play a user's liked songs
 
 ## To Implement
 1. Add a song to a playlist

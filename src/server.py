@@ -10,6 +10,7 @@ from tools import (
     _play_playlist_by_id,
     _play_song_by_artist,
     _play_song_by_uri,
+    _play_user_liked_songs,
     _play_user_playlist_by_name,
     _previous_track,
     _start_playback,
@@ -140,6 +141,14 @@ def turn_shuffle_on() -> bool:
 )
 def turn_shuffle_off() -> bool:
     return _turn_shuffle_off()
+
+
+@mcp.tool(
+    name="play_user_liked_songs",
+    description="Play the user's liked songs",
+)
+def play_user_liked_songs() -> bool:
+    return _play_user_liked_songs()
 
 
 if __name__ == "__main__":

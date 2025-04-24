@@ -153,5 +153,17 @@ def _turn_shuffle_off() -> bool:
         raise
 
 
+def _play_user_liked_songs() -> bool:
+    current_user_saved_tracks = client.sp.current_user_saved_tracks()
+    if current_user_saved_tracks:
+        tracks = current_user_saved_tracks["items"]
+        uris = [track["track"]["uri"] for track in tracks]
+        client.sp.start_playback(uris=uris)
+        return True
+    else:
+        logger.error("Failed to get user saved tracks")
+        raise
+
+
 if __name__ == "__main__":
-    print(_next_track())
+    print(_play_user_liked_songs())
