@@ -1,4 +1,5 @@
 import logging
+import random
 import re
 
 logging.basicConfig(
@@ -16,3 +17,7 @@ def strip_track_uri(uri: str) -> str:
 
 def strip_playlist_uri(uri: str) -> str:
     return re.sub(r"spotify:playlist:", "", uri)
+
+
+def true_shuffle(uris: list[str]) -> list[str]:
+    return random.sample(uris, len(uris))

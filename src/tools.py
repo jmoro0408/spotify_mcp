@@ -8,6 +8,15 @@ from utils import logger, strip_playlist_uri, strip_track_uri
 
 
 def _play_song_by_uri(uri: str) -> bool:
+    """
+    Play a song by its URI.
+
+    Args:
+        uri (str): The URI of the song to play.
+
+    Returns:
+        bool: True if the song was successfully played, False otherwise.
+    """
     try:
         sp = client.sp
         uri = strip_track_uri(uri)
@@ -19,6 +28,16 @@ def _play_song_by_uri(uri: str) -> bool:
 
 
 def _play_song_by_artist(artist: str, song: str) -> bool:
+    """
+    Play a song by its artist and song name.
+
+    Args:
+        artist (str): The name of the artist of the song to play.
+        song (str): The name of the song to play.
+
+    Returns:
+        bool: True if the song was successfully played, False otherwise.
+    """
     song_uri = _get_uri_from_artist_song(artist, song)
     if song_uri:
         return _play_song_by_uri(song_uri)
@@ -27,6 +46,13 @@ def _play_song_by_artist(artist: str, song: str) -> bool:
 
 
 def _get_currently_playing() -> str:
+    """
+    Get the currently playing track and artist.
+
+    Returns:
+        str: The name of the currently playing track and artist, or a message
+            indicating that no track is currently playing.
+    """
     try:
         sp = client.sp
         current_track = sp.currently_playing()
@@ -43,11 +69,27 @@ def _get_currently_playing() -> str:
 
 
 def _list_user_playlists() -> str:
+    """
+    List the names of the user's playlists.
+
+    Returns:
+        str: A comma-separated string of the user's playlist names.
+    """
     user_playlists = _get_user_playlists()
     return f"User playlists: {', '.join(user_playlists)}"
 
 
 def _play_playlist_by_id(playlist_uri: str) -> bool:
+    """
+    Play a playlist on Spotify using its URI.
+
+    Args:
+        playlist_uri (str): The URI of the playlist to play.
+
+    Returns:
+        bool: True if the playlist was successfully played, False otherwise.
+    """
+
     playlist_uri = strip_playlist_uri(playlist_uri)
     sp = client.sp
     devices = sp.devices()
@@ -69,6 +111,16 @@ def _play_playlist_by_id(playlist_uri: str) -> bool:
 
 
 def _play_user_playlist_by_name(playlist_name: str) -> bool:
+    """
+    Play a user's playlist by its name.
+
+    Args:
+        playlist_name (str): The name of the user's playlist to play.
+
+    Returns:
+        bool: True if the playlist was successfully played, False otherwise.
+    """
+
     playlist_id = _get_user_playlist_id(playlist_name)
     if playlist_id:
         return _play_playlist_by_id(playlist_id)
@@ -78,6 +130,16 @@ def _play_user_playlist_by_name(playlist_name: str) -> bool:
 
 def _get_playlist_id(query: str, limit: int = 50) -> str | None:
     # limit is high becauses sometimes intial results are None
+    """
+    Search for a playlist with the given query and return its uri.
+
+    Args:
+        query (str): The query to search for.
+        limit (int, optional): The number of results to limit to. Defaults to 50.
+
+    Returns:
+        str | None: The uri of the first playlist found, or None if no results were returned.
+    """
     sp = client.sp
     results = sp.search(q=query, type="playlist", limit=limit)
     if results is None:
@@ -88,6 +150,12 @@ def _get_playlist_id(query: str, limit: int = 50) -> str | None:
 
 
 def _pause_playback() -> bool:
+    """
+    Pause the user's active Spotify playback.
+
+    Returns:
+        bool: True if the playback was successfully paused, False otherwise.
+    """
     try:
         sp = client.sp
         sp.pause_playback()
@@ -99,6 +167,12 @@ def _pause_playback() -> bool:
 
 
 def _start_playback() -> bool:
+    """
+    Start the user's active Spotify playback.
+
+    Returns:
+        bool: True if the playback was successfully started, False otherwise.
+    """
     try:
         sp = client.sp
         sp.start_playback()
@@ -110,6 +184,12 @@ def _start_playback() -> bool:
 
 
 def _next_track() -> bool:
+    """
+    Skip to the next track on the user's active Spotify playback.
+
+    Returns:
+        bool: True if the track was successfully skipped, False otherwise.
+    """
     try:
         sp = client.sp
         sp.next_track()
@@ -121,6 +201,12 @@ def _next_track() -> bool:
 
 
 def _previous_track() -> bool:
+    """
+    Skip to the previous track on the user's active Spotify playback.
+
+    Returns:
+        bool: True if the track was successfully skipped, False otherwise.
+    """
     try:
         sp = client.sp
         sp.previous_track()
@@ -132,6 +218,12 @@ def _previous_track() -> bool:
 
 
 def _turn_shuffle_on() -> bool:
+    """
+    Enable shuffle on the user's active Spotify playback.
+
+    Returns:
+        bool: True if shuffle was successfully enabled, False otherwise.
+    """
     try:
         sp = client.sp
         sp.shuffle(True)
@@ -143,6 +235,13 @@ def _turn_shuffle_on() -> bool:
 
 
 def _turn_shuffle_off() -> bool:
+    """
+    Disable shuffle on the user's active Spotify playback.
+
+    Returns:
+        bool: True if shuffle was successfully disabled, False otherwise.
+    """
+
     try:
         sp = client.sp
         sp.shuffle(False)
@@ -154,6 +253,12 @@ def _turn_shuffle_off() -> bool:
 
 
 def _play_user_liked_songs() -> bool:
+    """
+    Play the user's liked songs.
+
+    Returns:
+        bool: True if the tracks were successfully played, False otherwise.
+    """
     current_user_saved_tracks = client.sp.current_user_saved_tracks()
     if current_user_saved_tracks:
         tracks = current_user_saved_tracks["items"]
