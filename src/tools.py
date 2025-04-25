@@ -4,9 +4,13 @@ from resources import (
     _get_user_playlist_id,
     _get_user_playlists,
 )
+from server import mcp
 from utils import logger, strip_playlist_uri, strip_track_uri
 
 
+@mcp.tool(
+    name="play_song_by_uri", description="play a song on spotify given its unique uri"
+)
 def _play_song_by_uri(uri: str) -> bool:
     """
     Play a song by its URI.
@@ -27,6 +31,31 @@ def _play_song_by_uri(uri: str) -> bool:
         raise
 
 
+@mcp.tool(
+    name="play_public_playlist_by_name",
+    description="play a public playlist given it's name",
+)
+def play_public_playlist_by_name(playlist_name: str) -> bool:
+    """
+    Play a public playlist on Spotify using its name.
+
+    Args:
+        playlist_name (str): The name of the public playlist to play.
+
+    Returns:
+        bool: True if the playlist was successfully played, False otherwise.
+    """
+    playlist_id = _get_playlist_id(playlist_name)
+    if playlist_id:
+        return _play_playlist_by_id(playlist_id)
+    else:
+        return False
+
+
+@mcp.tool(
+    name="play_song_by_artist_song",
+    description="play a song on spotify given its artist and song",
+)
 def _play_song_by_artist(artist: str, song: str) -> bool:
     """
     Play a song by its artist and song name.
@@ -45,6 +74,10 @@ def _play_song_by_artist(artist: str, song: str) -> bool:
         return False
 
 
+@mcp.tool(
+    name="get_currently_playing",
+    description="get the currently playing artist and song",
+)
 def _get_currently_playing() -> str:
     """
     Get the currently playing track and artist.
@@ -68,6 +101,10 @@ def _get_currently_playing() -> str:
         raise
 
 
+@mcp.tool(
+    name="get_user_playlists",
+    description="list the users playlists",
+)
 def _list_user_playlists() -> str:
     """
     List the names of the user's playlists.
@@ -110,6 +147,10 @@ def _play_playlist_by_id(playlist_uri: str) -> bool:
     return True
 
 
+@mcp.tool(
+    name="play_user_playlist_by_name",
+    description="play a user's playlist given its name",
+)
 def _play_user_playlist_by_name(playlist_name: str) -> bool:
     """
     Play a user's playlist by its name.
@@ -149,6 +190,10 @@ def _get_playlist_id(query: str, limit: int = 50) -> str | None:
     return results[0]["uri"]
 
 
+@mcp.tool(
+    name="pause_playback",
+    description="pause playback on active device",
+)
 def _pause_playback() -> bool:
     """
     Pause the user's active Spotify playback.
@@ -166,6 +211,10 @@ def _pause_playback() -> bool:
         raise
 
 
+@mcp.tool(
+    name="start_playback",
+    description="start playback on active device",
+)
 def _start_playback() -> bool:
     """
     Start the user's active Spotify playback.
@@ -183,6 +232,10 @@ def _start_playback() -> bool:
         raise
 
 
+@mcp.tool(
+    name="next_track",
+    description="skip to next track on active device",
+)
 def _next_track() -> bool:
     """
     Skip to the next track on the user's active Spotify playback.
@@ -200,6 +253,10 @@ def _next_track() -> bool:
         raise
 
 
+@mcp.tool(
+    name="previous_track",
+    description="skip to previous track on active device",
+)
 def _previous_track() -> bool:
     """
     Skip to the previous track on the user's active Spotify playback.
@@ -217,6 +274,10 @@ def _previous_track() -> bool:
         raise
 
 
+@mcp.tool(
+    name="turn_shuffle_on",
+    description="Toggle shuffle on active device",
+)
 def _turn_shuffle_on() -> bool:
     """
     Enable shuffle on the user's active Spotify playback.
@@ -234,6 +295,10 @@ def _turn_shuffle_on() -> bool:
         raise
 
 
+@mcp.tool(
+    name="turn_shuffle_off",
+    description="Toggle shuffle off active device",
+)
 def _turn_shuffle_off() -> bool:
     """
     Disable shuffle on the user's active Spotify playback.
@@ -252,6 +317,10 @@ def _turn_shuffle_off() -> bool:
         raise
 
 
+@mcp.tool(
+    name="play_user_liked_songs",
+    description="Play the user's liked songs",
+)
 def _play_user_liked_songs() -> bool:
     """
     Play the user's liked songs.

@@ -1,9 +1,15 @@
 import difflib
 
 from auth import client
+from server import mcp
 from utils import logger
 
 
+@mcp.resource(
+    "play://{artist}_{song}",
+    name="get_uri_from_artist_song",
+    description="get unique spotify uri from artist and song",
+)
 def _get_uri_from_artist_song(artist: str, song: str) -> str | None:
     try:
         sp = client.sp
@@ -34,6 +40,11 @@ def get_all_user_playlists():
     return all_playlists
 
 
+@mcp.resource(
+    "read://playlists",
+    name="get_user_playlists",
+    description="get user playlists",
+)
 def _get_user_playlists() -> list[str]:
     try:
         playlists = get_all_user_playlists()
