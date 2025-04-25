@@ -1,5 +1,6 @@
 from auth import client
 from resources import (
+    _get_recent_tracks,
     _get_uri_from_artist_song,
     _get_user_playlist_id,
     _get_user_playlists,
@@ -339,5 +340,17 @@ def _play_user_liked_songs() -> bool:
         raise
 
 
+@mcp.tool(
+    name="get_recent_tracks",
+    description="Return the user's recently played tracks",
+)
+def get_recent_tracks() -> bool:
+    tracks = _get_recent_tracks()
+    if not tracks:
+        logger.error("Failed to get recent tracks")
+        raise
+    return tracks
+
+
 if __name__ == "__main__":
-    print(_play_user_liked_songs())
+    print(get_recent_tracks())
