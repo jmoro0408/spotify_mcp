@@ -345,6 +345,12 @@ def _play_user_liked_songs() -> bool:
     description="Return the user's recently played tracks",
 )
 def get_recent_tracks() -> bool:
+    """
+    Return the user's recently played tracks.
+
+    Returns:
+        dict[str, str]: A dictionary of recently played tracks with artist as the key and song as the value.
+    """
     tracks = _get_recent_tracks()
     if not tracks:
         logger.error("Failed to get recent tracks")
@@ -352,5 +358,30 @@ def get_recent_tracks() -> bool:
     return tracks
 
 
+@mcp.tool(
+    name="add_track_to_queue_by_artist_and_song",
+    description="Add a track to the active device's queue",
+)
+def add_to_queue_by_artist_and_song(artist: str, song: str) -> bool:
+    """
+    Add a track to the active device's queue given its artist and song name.
+
+    Args:
+        artist (str): The name of the artist of the track to add to the queue.
+        song (str): The name of the track to add to the queue.
+
+    Returns:
+        bool: True if the track was successfully added to the queue, False otherwise.
+    """
+
+    try:
+        uri = _get_uri_from_artist_song(artist=artist, song=song)
+        client.sp.add_to_queue(uri)
+        return True
+    except Exception as e:
+        logger.error(f"Failed to add track to queue: {str(e)}")
+        raise
+
+
 if __name__ == "__main__":
-    print(get_recent_tracks())
+    print(add_to_queue_by_artist_and_song("The Weeknd", "Blinding Lights"))
