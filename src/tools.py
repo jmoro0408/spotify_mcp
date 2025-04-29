@@ -9,6 +9,14 @@ from server import mcp
 from utils import logger, strip_playlist_uri, strip_track_uri
 
 
+def get_device_id():
+    devices = client.sp.devices()
+    if not devices:
+        raise Exception("No active devices found. Please open Spotify on a device.")
+
+    return devices["devices"][0]["id"]
+
+
 @mcp.tool(
     name="play_song_by_uri", description="play a song on spotify given its unique uri"
 )
@@ -136,10 +144,7 @@ def _play_playlist_by_id(playlist_uri: str) -> bool:
         logger.error("Failed to get active devices")
         return False
 
-    for d in devices["devices"]:
-        if d["is_active"]:
-            device_id = d["id"]
-            break
+    device_id = get_device_id()
 
     playlist_uri = f"spotify:playlist:{playlist_uri}"
 
@@ -383,5 +388,77 @@ def add_to_queue_by_artist_and_song(artist: str, song: str) -> bool:
         raise
 
 
+@mcp.tool(
+    name="play_top_tracks_short_term",
+    description="Play the user's top 20 tracks from the last month.",
+)
+def play_top_tracks_short_term():
+    """
+    Play the user's top 20 tracks from the last month.
+
+    Returns:
+        bool: True if the tracks were successfully played, False otherwise.
+    """
+    top_tracks = client.sp.current_user_top_tracks(limit=20, time_range="short_term")
+    if top_tracks:
+        track_uris = [track["uri"] for track in top_tracks["items"]]
+    else:
+        logger.error("Failed to get top tracks")
+        raise
+
+    device_id = get_device_id()
+    client.sp.start_playback(device_id=device_id, uris=track_uris)
+
+    logger.info("Now playing your top 20 tracks from the last month.")
+
+
+@mcp.tool(
+    name="play_top_tracks_medium_term",
+    description="Play the user's top 20 tracks from the last 6 months.",
+)
+def play_top_tracks_medium_term():
+    """
+    Play the user's top 20 tracks from the 6 months.
+
+    Returns:
+        bool: True if the tracks were successfully played, False otherwise.
+    """
+    top_tracks = client.sp.current_user_top_tracks(limit=20, time_range="medium_term")
+    if top_tracks:
+        track_uris = [track["uri"] for track in top_tracks["items"]]
+    else:
+        logger.error("Failed to get top tracks")
+        raise
+
+    device_id = get_device_id()
+    client.sp.start_playback(device_id=device_id, uris=track_uris)
+
+    logger.info("Now playing your top 20 tracks from the last 6 months.")
+
+
+@mcp.tool(
+    name="play_top_tracks_long_term",
+    description="Play the user's top 20 tracks from the last 6 months.",
+)
+def play_top_tracks_long_term():
+    """
+    Play the user's top 20 tracks from the year.
+
+    Returns:
+        bool: True if the tracks were successfully played, False otherwise.
+    """
+    top_tracks = client.sp.current_user_top_tracks(limit=20, time_range="long_term")
+    if top_tracks:
+        track_uris = [track["uri"] for track in top_tracks["items"]]
+    else:
+        logger.error("Failed to get top tracks")
+        raise
+
+    device_id = get_device_id()
+    client.sp.start_playback(device_id=device_id, uris=track_uris)
+
+    logger.info("Now playing your top 20 tracks from the last year.")
+
+
 if __name__ == "__main__":
-    print(add_to_queue_by_artist_and_song("The Weeknd", "Blinding Lights"))
+    print(play_top_tracks_short_term())

@@ -14,6 +14,8 @@ class SpotipyClient:
             "user-modify-playback-state",
             "user-read-currently-playing",
             "playlist-read-private",
+            "playlist-modify-private",
+            "playlist-modify-public",
             "playlist-read-collaborative",
             "user-read-recently-played",
             "user-top-read",
