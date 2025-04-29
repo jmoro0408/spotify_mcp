@@ -16,6 +16,7 @@ class SpotipyClient:
             "playlist-read-private",
             "playlist-read-collaborative",
             "user-read-recently-played",
+            "user-top-read",
         ]
         cache_path = Path(Path.home(), ".spotify_mcp_cache")
         self.sp = spotipy.Spotify(

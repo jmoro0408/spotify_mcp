@@ -147,5 +147,98 @@ def _get_recent_tracks() -> dict[str, str]:
         raise
 
 
+@mcp.resource(
+    "read://top_tracks_short_term",
+    name="get_top_tracks_short_term",
+    description="Retrieve the user's top tracks for the past week.",
+)
+def _get_top_tracks_short_term() -> dict[str, str] | bool:
+    """
+    Retrieve the user's top tracks for the past week.
+
+    Returns:
+        list[str]: A list of URIs for the user's top tracks for the past week.
+
+    Raises:
+        Exception: If an error occurs while fetching the top tracks.
+    """
+    top_tracks = client.sp.current_user_top_tracks(time_range="short_term")
+    try:
+        track_names = []
+        artists = []
+        if top_tracks:
+            for track in top_tracks["items"]:
+                track_names.append(track["name"])
+                artists.append(track["artists"][0]["name"])
+            return dict(zip(artists, track_names, strict=True))
+        logger.error("Failed to get top tracks")
+        return False
+    except Exception as e:
+        logger.error(f"Failed to get top tracks: {str(e)}")
+        raise
+
+
+@mcp.resource(
+    "read://top_tracks_medium_term",
+    name="get_top_tracks_medium_term",
+    description="Retrieve the user's top tracks for the past 6 months.",
+)
+def _get_top_tracks_medium_term() -> dict[str, str] | bool:
+    """
+    Retrieve the user's top tracks for the past 6 months.
+
+    Returns:
+        list[str]: A list of URIs for the user's top tracks for the past past 6 months.
+
+    Raises:
+        Exception: If an error occurs while fetching the top tracks.
+    """
+    top_tracks = client.sp.current_user_top_tracks(time_range="medium_term")
+    try:
+        track_names = []
+        artists = []
+        if top_tracks:
+            for track in top_tracks["items"]:
+                track_names.append(track["name"])
+                artists.append(track["artists"][0]["name"])
+            return dict(zip(artists, track_names, strict=True))
+        logger.error("Failed to get top tracks")
+        return False
+    except Exception as e:
+        logger.error(f"Failed to get top tracks: {str(e)}")
+        raise
+
+
+@mcp.resource(
+    "read://top_tracks_long_term",
+    name="get_top_tracks_long_term",
+    description="Retrieve the user's top tracks for the past year.",
+)
+def _get_top_tracks_long_term() -> dict[str, str] | bool:
+    """
+    Retrieve the user's top tracks for the past year.
+
+    Returns:
+        list[str]: A list of URIs for the user's top tracks for the past past year.
+
+    Raises:
+        Exception: If an error occurs while fetching the top tracks.
+    """
+    top_tracks = client.sp.current_user_top_tracks(time_range="long_term")
+    try:
+        track_names = []
+        artists = []
+        if top_tracks:
+            for track in top_tracks["items"]:
+                track_names.append(track["name"])
+                artists.append(track["artists"][0]["name"])
+            return dict(zip(artists, track_names, strict=True))
+        logger.error("Failed to get top tracks")
+        return False
+    except Exception as e:
+        logger.error(f"Failed to get top tracks: {str(e)}")
+        raise
+
+
 if __name__ == "__main__":
-    print(_get_recent_tracks())
+    print(_get_top_tracks_long_term())
