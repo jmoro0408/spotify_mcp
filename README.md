@@ -10,10 +10,10 @@ To get this project up and running, follow these steps:
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/spotify_mcp.git
+    git clone https://github.com/jmoro0408/spotify_mcp.git
     cd spotify_mcp
     ```
-    (Replace `your-username` with the actual repository owner and name if this is hosted on GitHub)
+
 
 2.  **Set up a virtual environment (recommended):**
     ```bash
